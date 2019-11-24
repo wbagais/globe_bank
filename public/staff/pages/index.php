@@ -1,4 +1,6 @@
-<?php require_once("../../../private/initialize.php") ?>
+<?php require_once("../../../private/initialize.php")
+
+?>
 
 <?php
   $pages = [
@@ -18,7 +20,7 @@
     <h1>Pages</h1>
 
     <div class="actions">
-      <a class= "action" href ="">Create New Page</a>
+      <a class= "action" href ="<?php echo url_for('/staff/pages/new.php'); ?>">Create New Page</a>
     </div>
 
     <table class = "list">
@@ -32,26 +34,20 @@
         <th>&nbsp;</th>
       </tr>
 
+
+
       <tr>
-        <?php
-          foreach ($pages as $page) {
-            echo "<tr>";
-            echo "<td>" . h($page['id']) . "</td>";
-            echo "<td>" . h($page['position']) . "</td>";
-
-            echo "<td>";
-            echo $page['visible'] == 1 ? 'True' : 'False';
-            echo "</td>";
-
-            echo "<td>" . h($page['menu_name']) . "</td>";
-            echo "<td><a href =" .
-            url_for('/staff/pages/show.php?id='). h(u($page['id'])) .
-            ">View</a></td>";
-            echo "<td><a href =''>Edit</a></td>";
-            echo "<td><a href =''>Delete</a></td>";
-            echo "</tr>";
-          }
-        ?>
+        <?php foreach($pages as $page) { ?>
+          <tr>
+            <td><?php echo h($page['id']); ?></td>
+            <td><?php echo h($page['position']); ?></td>
+            <td><?php echo h($page['visible']) == 1 ? 'true' : 'false'; ?></td>
+      	    <td><?php echo h($page['menu_name']); ?></td>
+            <td><a class="action" href="<?php echo url_for('/staff/pages/edit.php?id=' . h(u($page['id']))); ?>">View</a></td>
+            <td><a class="action" href="<?php echo url_for('/staff/pages/edit.php?id=' . h(u($page['id']))); ?>">Edit</a></td>
+            <td><a class="action" href="">Delete</a></td>
+      	  </tr>
+        <?php } ?>
       </tr>
     </table>
   </div>

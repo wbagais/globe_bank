@@ -1,5 +1,5 @@
 <?php
-
+ob_start();  //output buffering is turned on
   // Assign file paths to PHP constants
   // __FILE__ returns the current path to this file
   // dirname() returns the path to the parent directory
@@ -21,7 +21,7 @@
 // ** + 7 to go to the end of the /public
 // ** $_SERVER['SCRIPT_NAME'] is: /~wbagais/globe_bank/public/staff/index.php
 $public_end = strpos($_SERVER['SCRIPT_NAME'], '/public') + 7;
-// ** $doc_root is /~wbagais/globe_bank/public 
+// ** $doc_root is /~wbagais/globe_bank/public
 $doc_root = substr($_SERVER['SCRIPT_NAME'], 0, $public_end);
 define("WWW_ROOT", $doc_root);
 
