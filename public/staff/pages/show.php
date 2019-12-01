@@ -1,6 +1,9 @@
 <?php require_once("../../../private/initialize.php"); ?>
-
-<?php $id = $_GET['id'] ?? '1'; ?>
+<?php
+$id = $_GET['id'] ?? '1'; // php >= 7.0
+// in PHP < 7.0 (the old way)
+//$id = isset($_GET['id']) ? $_GET['id'] : '1';
+?>
 
 <?php $page_title = 'Show Page'; ?>
 <?php include(SHARED_PATH . "/staff_header.php"); ?>
