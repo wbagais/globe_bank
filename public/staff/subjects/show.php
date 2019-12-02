@@ -16,7 +16,7 @@ $subject = find_subject_by_id($id);
 
   <div class = "Subject show">
 
-    <h1>Subject: <? echo h($subject['menu_name']); ?> </h1>
+    <h1>Subject: <?php echo h($subject['menu_name']); ?> </h1>
 
     <div class="attributes">
 
