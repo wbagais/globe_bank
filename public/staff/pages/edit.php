@@ -18,17 +18,20 @@ if(is_post_request()){
   $page['content'] = $_POST['content'];
 
   $result = update_page($page);
-  redirect_to(url_for('/staff/pages/show.php?id='.$id));
+  if ($result === true){
+    redirect_to(url_for('/staff/pages/show.php?id='.$id));
+  } else {
+    $errors = $result;
+  }
+
 
 } else {
-
   $page = find_page_by_id($id);
-
-  $page_set = find_all_pages();
-  $page_count = mysqli_num_rows($page_set);
-  mysqli_free_result($page_set);
-
 }
+
+$page_set = find_all_pages();
+$page_count = mysqli_num_rows($page_set);
+mysqli_free_result($page_set);
 ?>
 
 <?php $page_title = "Edit Page"; ?>
@@ -38,6 +41,8 @@ if(is_post_request()){
   <a class="back-link" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a>
   <div class = "edit page">
     <h>Edit Page</h>
+  </br>
+    <?php echo display_errors($errors); ?>
     <form action="<?php echo url_for('/staff/pages/edit.php?id=' . h(u($id))); ?>" method = "post">
 
       <dl>

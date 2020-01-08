@@ -12,11 +12,14 @@ if(is_post_request()){
   $page['content']  = $_POST['content'] ?? '';
 
   $result = insert_page($page);
-  $new_id = mysqli_insert_id($db);
-  redirect_to(url_for('/staff/pages/show.php?id=' . $new_id));
+  if ($result === true){
+    $new_id = mysqli_insert_id($db);
+    redirect_to(url_for('/staff/pages/show.php?id=' . $new_id));
+  } else {
+    $errors = $result;
+  }
 
 } else {
-
   $page = [];
   $page['subject_id']  =  '';
   $page['menu_name'] = '';
@@ -25,18 +28,17 @@ if(is_post_request()){
   $page['content']  = '';
 
 
-  $page_set = find_all_pages();
-  $page_count = mysqli_num_rows($page_set) + 1;
-  mysqli_free_result($page_set);
+
 
 //  $page = [];
   //$page["position"] = $page_count;
 
   //$sql = "SELECT id, menu_name FROM subjects ";
 //  $result = mysqli_query($db, $sql);
-
-
 }
+$page_set = find_all_pages();
+$page_count = mysqli_num_rows($page_set) + 1;
+mysqli_free_result($page_set);
 ?>
 
 <?php $page_title = "Create Page"; ?>
@@ -47,6 +49,8 @@ if(is_post_request()){
   <div class = "edit page">
 
     <h1>Create Page</h1>
+
+    <?php echo display_errors($errors); ?>
 
     <form action="<?php echo url_for('/staff/pages/new.php'); ?>" method = "post">
 
