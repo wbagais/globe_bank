@@ -1,11 +1,16 @@
 <?php
 
-  function find_all_subjects(){
+  function find_all_subjects($options=[]){
     global $db;
+
+    $visible = $options['visible'] ?? false;
 
     // We need a space after subjects befor we concatenate it with other string
     // if we did not it will look like: "subjectsORDER BY"
     $sql = "SELECT * FROM subjects ";
+    if($visible){
+      $sql .= "WHERE visible  = true ";
+    }
     $sql .= "ORDER BY position ASC";
     // echo $sql; // Check the sql query
     $result = mysqli_query($db, $sql);
@@ -13,13 +18,17 @@
     return $result;
   }
 
-  function find_subject_by_id($id){
+  function find_subject_by_id($id, $options = []){
     global $db;
+    $visible = $options['visible'] ?? false;
 
     $sql = "SELECT * FROM subjects ";
     // it is a good practice to have a single quotes '' between the id for a security reson
     // the ; can be ignored it would be atuo added
-    $sql .= "WHERE id='" . db_escape($db,$id) . "'";
+    $sql .= "WHERE id='" . db_escape($db,$id) . "' ";
+    if($visible){
+      $sql .="AND visible = true ";
+    }
 
     $result = mysqli_query($db, $sql);
 
@@ -150,8 +159,10 @@
     return $result;
   }
 
-  function find_page_by_id($id){
+  function find_page_by_id($id, $options = []){
     global $db;
+
+    $visible = $options['visible'] ?? false;
 
     //$sql = "SELECT pages.*, subjects.menu_name AS subject FROM pages ";
     //$sql .= "LEFT JOIN subjects ";
@@ -159,7 +170,10 @@
     //$sql .= "WHERE pages.id ='" . $id . "'; ";
 
     $sql =  "SELECT * FROM pages ";
-    $sql .= "WHERE id='" . db_escape($db, $id) . "'";
+    $sql .= "WHERE id='" . db_escape($db, $id) . "' ";
+    if($visible){
+      $sql .="AND visible = true ";
+    }
 
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
@@ -292,4 +306,22 @@
     }
 
   }
+
+  function find_pages_by_subject_id($subject_id, $options =[]){
+    global $db;
+
+    $visible = $options['visible'] ?? false;
+
+    $sql =  "SELECT * FROM pages ";
+    $sql .= "WHERE subject_id='" . db_escape($db, $subject_id) . "' ";
+    if($visible){
+      $sql .= "AND visible = true ";
+    }
+    $sql .= "ORDER BY position ASC";
+
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    return $result;
+  }
+
  ?>
