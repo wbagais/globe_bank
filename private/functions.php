@@ -41,10 +41,10 @@ function is_get_request(){
   return $_SERVER["REQUEST_METHOD"] == "GET";
 }
 
-function display_errors($errors =array()){
+function display_errors($errors=array()) {
   $output = '';
-  if(!empty($errors)){
-    $output .= "<div class = \"errors\">";
+  if(!empty($errors)) {
+    $output .= "<div class=\"errors\">";
     $output .= "Please fix the following errors:";
     $output .= "<ul>";
     foreach($errors as $error) {
@@ -53,7 +53,6 @@ function display_errors($errors =array()){
     $output .= "</ul>";
     $output .= "</div>";
   }
-
   return $output;
 }
 

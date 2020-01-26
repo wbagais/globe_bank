@@ -30,16 +30,16 @@ if(is_post_request()){
   $page = find_page_by_id($id);
 }
 
-$page_set = find_all_pages();
-$page_count = mysqli_num_rows($page_set);
-mysqli_free_result($page_set);
+$page_count = count_pages_by_subject_id($page['subject_id']);
 ?>
 
 <?php $page_title = "Edit Page"; ?>
 <?php include(SHARED_PATH . "/staff_header.php"); ?>
 
 <div id ="content">
-  <a class="back-link" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a>
+  <a class="back-linkh" href="<?php echo url_for('/staff/subjects/show.php?id=' .
+  h(u($page['subject_id'])));?>">&laquo; Back to Subject page</a>
+
   <div class = "edit page">
     <h>Edit Page</h>
   </br>
@@ -65,7 +65,10 @@ mysqli_free_result($page_set);
         </dd>
 
       </dl>
-
+      <?php
+      // the code allow user to change the subject of the page
+      // however the position count does NOT change when we change the subject
+      ?>
       <dl>
         <dt>Menu Name</dt>
         <dd><input type = 'text' name='menu_name' value = "<?php echo h($page['menu_name']); ?>" /></dd>
@@ -76,12 +79,12 @@ mysqli_free_result($page_set);
         <dd>
           <select name = 'position'>
             <?php
-                for($i=0; $i<=$page_count; $i++){
+                for($i=1; $i<=$page_count; $i++){
                   echo "<option value =\"{$i}\"";
                   if ($page['position'] == $i){
                     echo "selected";
                   }
-                  echo ">{$i}<option>";
+                  echo ">{$i}</option>";
                 }
              ?>
           </select>

@@ -1,5 +1,5 @@
 <?php require_once("../../../private/initialize.php");
-require_login(); 
+require_login();
 
 if(is_post_request()){
   // Handle form values sent by new.php
@@ -22,7 +22,7 @@ if(is_post_request()){
 
 } else {
   $page = [];
-  $page['subject_id']  =  '';
+  $page['subject_id']  =  $_GET['subject_id'] ?? '1';
   $page['menu_name'] = '';
   $page['position'] = '';
   $page['visible']  =  '';
@@ -37,16 +37,16 @@ if(is_post_request()){
   //$sql = "SELECT id, menu_name FROM subjects ";
 //  $result = mysqli_query($db, $sql);
 }
-$page_set = find_all_pages();
-$page_count = mysqli_num_rows($page_set) + 1;
-mysqli_free_result($page_set);
+
+$page_count = count_pages_by_subject_id($page['subject_id']) + 1;
 ?>
 
 <?php $page_title = "Create Page"; ?>
 <?php include(SHARED_PATH . "/staff_header.php"); ?>
 
 <div id ="content">
-  <a class="back-link" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a>
+  <a class="back-linkh" href="<?php echo url_for('/staff/subjects/show.php?id=' .
+  h(u($page['subject_id'])));?>">&laquo; Back to Subject page</a>
   <div class = "create page">
 
     <h1>Create Page</h1>
@@ -84,7 +84,7 @@ mysqli_free_result($page_set);
         <dd>
           <select name="position">
           <?php
-             for($i=0; $i <= $page_count; $i++) {
+             for($i=1; $i <= $page_count; $i++) {
                echo "<option value=\"{$i}\"";
                if($page['position']==$i){
                  echo "selected";
