@@ -1,4 +1,5 @@
 <?php require_once("../../../private/initialize.php"); ?>
+<?php require_login(); ?>
 <?php
 $id = $_GET['id'] ?? '1'; // php >= 7.0
 // in PHP < 7.0 (the old way)

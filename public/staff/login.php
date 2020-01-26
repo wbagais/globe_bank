@@ -10,9 +10,36 @@ if(is_post_request()) {
   $username = $_POST['username'] ?? '';
   $password = $_POST['password'] ?? '';
 
-  $_SESSION['username'] = $username;
+  //validation
+  if(is_blank($username)){
+    $errors[] = "Username can not be blank.";
+  }
+  if(is_blank($password)){
+    $errors[] = "Password can not be blank.";
+  }
 
-  redirect_to(url_for('/staff/index.php'));
+  //if there were no errors, try to log_in
+  if(empty($errors)){
+
+    $admin = find_admin_by_username($username);
+    //using one varible ensures that the mdg is the same
+    $login_failure_msg = "Log in was unsuccessful.";
+
+    if($admin){
+      if(password_verify($password, $admin['hashed_password'])){
+        // password matches
+        log_in_admin($admin);
+        redirect_to(url_for('/staff/index.php'));
+      } else {
+        // username found, but password does not match
+        $errors [] = $login_failure_msg;
+      }
+    } else {
+      // no username found
+      $errors [] = $login_failure_msg;
+    }
+  }
+
 }
 
 ?>

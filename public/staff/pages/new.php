@@ -1,5 +1,5 @@
 <?php require_once("../../../private/initialize.php");
-
+require_login(); 
 
 if(is_post_request()){
   // Handle form values sent by new.php
@@ -47,7 +47,7 @@ mysqli_free_result($page_set);
 
 <div id ="content">
   <a class="back-link" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a>
-  <div class = "edit page">
+  <div class = "create page">
 
     <h1>Create Page</h1>
 
